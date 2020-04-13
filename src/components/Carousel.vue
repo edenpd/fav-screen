@@ -47,7 +47,6 @@ export default {
   data() {
     return {
       carouselIndex: 0
-      
     };
   },
   methods: {
