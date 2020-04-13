@@ -22,7 +22,7 @@
 
             <v-divider></v-divider>
 
-            <v-expansion-panels multiple="multiple" :flat="true" v-model="panel">
+            <v-expansion-panels multiple :flat="true" v-model="panel">
               <v-expansion-panel v-on:click="onClickSubject('הצג הכל')" :readonly="true">
                 <v-expansion-panel-header disable-icon-rotate>
                   הצג הכל
@@ -84,19 +84,17 @@
 
 <script>
 export default {
-  props: ["items"],
   data() {
     return {
       currentShown: "הצג הכל",
       subjects: [],
       screenName: "",
-      multiple: true,
       panel: []
     };
   },
   methods: {
     setSubjects: function() {
-      var items = this.$props.items;
+      var items = this.$store.state.items;
       for (var i = 0; i < items.length; i++) {
         if (!this.subjects.includes(items[i].subject)) {
           this.subjects.push(items[i].subject);
@@ -106,20 +104,33 @@ export default {
     onClickSubject: function(subject) {
       this.panel = [];
       this.screenName = "";
-      if (subject == "הצג הכל" || subject == "מועדפים") {
+
+      if (subject === "הצג הכל" || subject === "מועדפים")
         this.currentShown = subject;
-      } else this.currentShown = "נושא: " + subject;
-      this.$emit("setSubject", subject);
+      else this.currentShown = "נושא: " + subject;
+      this.$store.dispatch("getScreens", subject);
+      this.$store.dispatch("setSubject", subject);
+
+      if (this.currentSubject != subject) {
+        this.$store.dispatch("setCarouselIndex", 0);
+        this.currentSubject = subject;
+      }
     },
+
     setInput: function() {
       this.panel = [];
-      if (this.screenName == "") this.currentShown = "הצג הכל";
-      else this.currentShown = "שם מסך: " + this.screenName;
-      this.$emit("searchByName", this.screenName);
+      if (this.screenName === "") {
+        this.currentShown = "הצג הכל";
+        this.$store.dispatch("getScreens", this.currentShown);
+      } else {
+        this.currentShown = "שם מסך: " + this.screenName;
+        this.$store.dispatch("setScreensByName", this.screenName);
+      }
+      this.$store.dispatch("setCarouselIndex", 0);
     }
   },
 
-  beforeMount() {
+  created() {
     this.setSubjects();
   }
 };
