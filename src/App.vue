@@ -12,7 +12,7 @@
                 id="alert"
                 transition="scale-transition"
                 type="info"
-                width="400"
+                width="300"
                 style="margin-right:50vh"
               >לא נמצאו נתונים התואמים לחיפוש</v-alert>
             </div>
