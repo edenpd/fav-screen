@@ -1,85 +1,76 @@
 <template>
-  <div>
-    <v-row dense>
-      <v-col cols="12">
-        <v-card id="panel" height="70" :elevation="10">
+  <v-row no-gutters>
+    <v-col>
+      <v-card id="panel" class="mb-2" :elevation="10">
+        <v-card-title class="display-1">מיטב ברשת</v-card-title>
+      </v-card>
+      <v-card id="panel" :elevation="10">
+        <v-navigation-drawer width="100vh">
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title class="display-1">מיטב ברשת</v-list-item-title>
+              <v-list-item-title class="title">{{ currentShown }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-        </v-card>
-        <v-spacer></v-spacer>
-      </v-col>
-      <v-col cols="12">
-        <v-card id="panel" class="align-end" :elevation="10">
-          <v-navigation-drawer width="100vh">
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="title">{{ currentShown }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
 
-            <v-divider></v-divider>
+          <v-divider></v-divider>
 
-            <v-expansion-panels multiple :flat="true" v-model="panel">
-              <v-expansion-panel v-on:click="onClickSubject('הצג הכל')" :readonly="true">
-                <v-expansion-panel-header disable-icon-rotate>
-                  הצג הכל
-                  <template v-slot:actions>
-                    <v-icon>all_inbox</v-icon>
-                  </template>
-                </v-expansion-panel-header>
-              </v-expansion-panel>
+          <v-expansion-panels multiple :flat="true" v-model="panel">
+            <v-expansion-panel v-on:click="onClickSubject('הצג הכל')" :readonly="true">
+              <v-expansion-panel-header disable-icon-rotate>
+                הצג הכל
+                <template v-slot:actions>
+                  <v-icon>all_inbox</v-icon>
+                </template>
+              </v-expansion-panel-header>
+            </v-expansion-panel>
 
-              <v-expansion-panel v-on:click="onClickSubject('מועדפים')" :readonly="true">
-                <v-expansion-panel-header disable-icon-rotate>
-                  מועדפים
-                  <template v-slot:actions>
-                    <v-icon>mdi-star</v-icon>
-                  </template>
-                </v-expansion-panel-header>
-              </v-expansion-panel>
+            <v-expansion-panel v-on:click="onClickSubject('מועדפים')" :readonly="true">
+              <v-expansion-panel-header disable-icon-rotate>
+                מועדפים
+                <template v-slot:actions>
+                  <v-icon>mdi-star</v-icon>
+                </template>
+              </v-expansion-panel-header>
+            </v-expansion-panel>
 
-              <v-expansion-panel :readonly="true">
-                <v-expansion-panel-header disable-icon-rotate>
-                  <v-text-field
-                    label="חיפוש לפי שם מסך"
-                    v-model="screenName"
-                    @input="setInput"
-                    @keyup.native="setInput"
-                    @click="setInput"
-                  ></v-text-field>
-                  <template v-slot:actions>
-                    <v-icon></v-icon>
-                  </template>
-                </v-expansion-panel-header>
-              </v-expansion-panel>
+            <v-expansion-panel :readonly="true">
+              <v-expansion-panel-header disable-icon-rotate>
+                <v-text-field
+                  label="חיפוש לפי שם מסך"
+                  v-model="screenName"
+                  @input="setInput"
+                  @keyup.native="setInput"
+                  @click="setInput"
+                ></v-text-field>
+                <template v-slot:actions>
+                  <v-icon></v-icon>
+                </template>
+              </v-expansion-panel-header>
+            </v-expansion-panel>
 
-              <v-expansion-panel>
-                <v-expansion-panel-header>נושאים</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-list>
-                    <v-list-item-group>
-                      <v-list-item
-                        v-on:click="onClickSubject(subject)"
-                        v-for="(subject, i) in subjects"
-                        :key="i"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title v-text="subject"></v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-navigation-drawer>
-        </v-card>
-      </v-col>
-    </v-row>
-  </div>
+            <v-expansion-panel>
+              <v-expansion-panel-header>נושאים</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list>
+                  <v-list-item-group>
+                    <v-list-item
+                      v-on:click="onClickSubject(subject)"
+                      v-for="(subject, i) in subjects"
+                      :key="i"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title v-text="subject"></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-navigation-drawer>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -135,16 +126,3 @@ export default {
   }
 };
 </script>
-
-<style>
-#panel {
-  width: 90%;
-}
-v-navigation-drawer {
-  background: #cdf2ff;
-}
-
-.main-title {
-  font-size: 20px;
-}
-</style>

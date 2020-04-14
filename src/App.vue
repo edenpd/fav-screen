@@ -1,25 +1,31 @@
 <template>
   <v-app id="app">
     <v-container fluid>
-      <v-layout fill-height id="layout">
-        <v-flex class="xl2 md3">
+      <v-row>
+        <v-col xl="2" md="2">
           <Panel />
-        </v-flex>
-        <v-flex class="xl7 md6">
-          <Carousel v-if="screensNum > 0" />
-          <div v-if="screensNum == 0">
-            <v-alert
-              id="alert"
-              transition="scale-transition"
-              type="info"
-              width="400"
-            >לא נמצאו נתונים התואמים לחיפוש</v-alert>
-          </div>
-        </v-flex>
-        <v-flex class="xl3 md3">
-          <ScreensList v-if="screensNum > 0" />
-        </v-flex>
-      </v-layout>
+        </v-col>
+        <v-col xl="7" md="7">
+          <transition name="slide-fade" mode="out-in">
+            <div v-if="screensNum == 0">
+              <v-alert
+                id="alert"
+                transition="scale-transition"
+                type="info"
+                width="400"
+                style="margin-right:50vh"
+              >לא נמצאו נתונים התואמים לחיפוש</v-alert>
+            </div>
+            <Carousel v-if="screensNum > 0" />
+          </transition>
+        </v-col>
+        <v-col cols="3">
+          <transition name="slide-fade" mode="out-in">
+            <span v-if="screensNum == 0"></span>
+            <ScreensList v-if="screensNum > 0" />
+          </transition>
+        </v-col>
+      </v-row>
     </v-container>
   </v-app>
 </template>
@@ -58,7 +64,13 @@ export default {
   background-image: url("./assets/back.jpg");
 }
 
-#alert {
-  margin-top: 200px;
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(-40px);
+  opacity: 0;
+}
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.2s ease;
 }
 </style>
